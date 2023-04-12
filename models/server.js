@@ -1,5 +1,5 @@
 const express = require('express');
-//var cors  = require('cors');
+var cors  = require('cors');
 const Sequelize = require('sequelize');
 
 const  { dbConnection }   = require('../database/config');
@@ -44,7 +44,7 @@ class Server {
     middlewares() {
 
         //CORS
-        //this.app.use(cors({ exposedHeaders : ['Content-Range']}));
+        this.app.use(cors({ exposedHeaders : ['Content-Range']}));
 
         //lectura y parseo del body, que venga de put, post, delete
         this.app.use(express.json());
