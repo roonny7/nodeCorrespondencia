@@ -33,10 +33,7 @@ class Server {
             res.send('Hello nigga')
           })
           
-          
         this.app.use(this.paths.reportes, require('../routes/buscar'));
-       
-        
     }
 
 
