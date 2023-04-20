@@ -36,6 +36,27 @@ var correspondencias = dbConnection.define("Correspondencias", {
     type: Sequelize.STRING,
     allowNull: false
   },  
+  Referencia: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },  
+  FechaLimite: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },  
+  Titular: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },  
+  Cargo: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },  
+  Destinatario: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    field : 'Favor'
+  },  
 }, {
   modelName: "Correspondencias",
   timestamps: false   

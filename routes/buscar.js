@@ -1,9 +1,12 @@
 const { Router}  = require ( 'express');
-const { buscaCorrespondencia } = require('../controllers/busquedaCorrespondencia');
+const { buscaCorrespondencia, buscaFolioCorrespondencia } = require('../controllers/busquedaCorrespondencia');
 //const { reportesempleadossexo, reportesescolaridad } = require('../controllers/reportesempleadosexo');
 const router = Router();
 
 router.get('/buscar/',  buscaCorrespondencia);
+router.get('/buscarfolio/:id',  buscaFolioCorrespondencia);
+router.get('/buscarfolio/',  buscaFolioCorrespondencia);
+
 /*router.get('/reportesescolaridad/',  reportesescolaridad);
 
 

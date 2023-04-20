@@ -1,8 +1,14 @@
 const { response, request } = require("express");
+
+///modelos o tablas
 const { correspondencias }  = require('../models/correspondencia');
-//const { anexos } = require("../models/anexos");;
+const { dependencias } = require("../models/dependencias");
+const { adjuntos } = require("../models/adjuntos");
+
+///conexiones a BD
 const Sequelize  = require('sequelize');
 const { dbConnection } = require("../database/config");
+
 
 const Op  = Sequelize.Op;
 
@@ -33,11 +39,59 @@ const buscaCorrespondencia = async(req = request, res= response) =>  {
 
 }
 
+const buscaFolioCorrespondencia = async(req = request, res= response) =>  {
+    
+    const { id:folio='' }  = req.params;
+    console.log(folio);
+
+    /*if (folio===0 || folio==='')
+    {
+        res.status(500).json({
+            msg : 'Sin datos'
+         })
+    }*/
+
+    correspondencias.belongsTo(dependencias, {foreignKey: 'IdUbicacion'});
+    dependencias.hasOne(correspondencias, {foreignKey : 'IdUbicacion', targetKey : 'IdUbicacion'} );
+    
+    /*correspondencias.belongsTo(adjuntos, {foreignKey: 'IdCorrespondencia'});
+    adjuntos.hasMany(correspondencias, {foreignKey : 'IdCorrespondencia', targetKey : 'IdCorrespondencia'} );*/
+
+    const folioCorrespondencia = await correspondencias.findAll({
+        where :    
+           { 
+             FolioRemitente : folio, 
+           },
+           limit : 1,
+        include : [{ model : dependencias, required : true}],
+    })
+
+    let IdCorrespondencia='0';
+    if (folioCorrespondencia)
+    {
+        IdCorrespondencia=folioCorrespondencia[0].dataValues.IdCorrespondencia;
+    
+    }
+    const archivosAdjuntos = await adjuntos.findAll({
+        where :    
+           { 
+             IdCorrespondencia 
+           },
+            
+    })
+    
+    
+    res.status(200).json({
+        folioCorrespondencia, 
+        archivosAdjuntos
+     })
+
+}
 
 
 module.exports = {
 
-    buscaCorrespondencia
+    buscaCorrespondencia, buscaFolioCorrespondencia
 }
 
 
