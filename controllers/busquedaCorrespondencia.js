@@ -42,7 +42,8 @@ const buscaCorrespondencia = async(req = request, res= response) =>  {
 const buscaFolioCorrespondencia = async(req = request, res= response) =>  {
     
     const { id:folio='' }  = req.params;
-    console.log(folio);
+    let respuesta = [];
+    //console.log(folio);
 
     /*if (folio===0 || folio==='')
     {
@@ -67,7 +68,8 @@ const buscaFolioCorrespondencia = async(req = request, res= response) =>  {
     })
 
     let IdCorrespondencia='0';
-    if (folioCorrespondencia)
+    
+    if (folioCorrespondencia[0])
     {
         IdCorrespondencia=folioCorrespondencia[0].dataValues.IdCorrespondencia;
     
@@ -80,10 +82,13 @@ const buscaFolioCorrespondencia = async(req = request, res= response) =>  {
             
     })
     
+    respuesta[0]={...folioCorrespondencia};
+    respuesta[1]={...archivosAdjuntos};
     
     res.status(200).json({
         folioCorrespondencia, 
         archivosAdjuntos
+        //respuesta
      })
 
 }
